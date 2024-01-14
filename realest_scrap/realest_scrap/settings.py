@@ -100,9 +100,6 @@ FEED_EXPORT_ENCODING = "utf-8"
 # Other non-scrapy settings
 
 def database_url() -> URL:
-    if url_string := getenv('POSTGRES_CONN'):
-        return make_url(url_string)
-
     url_dict = {
         'drivername': 'postgresql',
         'host': getenv('POSTGRES_HOST', 'localhost'),

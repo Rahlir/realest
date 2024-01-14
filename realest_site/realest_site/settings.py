@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k4ajcc9^sphp78h=*5oxs8&3+0qirf$z@j1#24j)vm6x6ik_a@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv("DJANGO_DEBUG", True)
 
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
 
 
 # Application definition
@@ -83,6 +83,11 @@ DATABASES = {
         'PASSWORD': getenv('POSTGRES_PASSWORD', 'password'),
         'HOST': getenv('POSTGRES_HOST', '127.0.0.1')
     }
+}
+
+SCRAPY = {
+    'host': getenv('SCRAPY_HOST', '127.0.0.1'),
+    'port': getenv('SCRAPY_PORT', '6800')
 }
 
 

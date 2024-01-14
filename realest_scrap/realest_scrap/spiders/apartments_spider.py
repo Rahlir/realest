@@ -16,7 +16,15 @@ class SrealitySpider(Spider):
     scraped = 0
     scrap_limit: int | None = None
 
+    def __init__(self, scrap_limit: str | None = None, *args, **kwargs):
+        if scrap_limit:
+            try:
+                self.scrap_limit = int(scrap_limit)
+            except ValueError:
+                raise ValueError("The scrap_limit must be a valid integer")
+
     def parse(self, response):  # type: ignore
+        print(self.scrap_limit)
         if not self.scrap_limit or self.scraped < self.scrap_limit:
             response_dict = loads(response.text)
             for posting in response_dict['_embedded']['estates']:

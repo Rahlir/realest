@@ -1,6 +1,15 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'postings/style.css' %}">
+<form action="{% url 'crawl' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <input type="radio" id="apartments" name="category", value="Apartments">
+        <label for="apartments">Apartments</label><br>
+        <input type="submit" value="Request Crawl">
+    </fieldset>
+</form>
+
 <div class="postings-list">
     <h1>Scrapped Postings</h1>
     {% for posting in page_obj %}

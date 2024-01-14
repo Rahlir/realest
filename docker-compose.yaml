@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: realest-postgres
     image: postgres:16.1
     environment:
       POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
@@ -10,35 +11,39 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
-  realest_site:
-    build:
-      context: ./realest_site
-    environment: 
-      POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
-      POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
-      POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
-      POSTGRES_HOST: ${REALEST_POSTGRES_HOST:-realest-postgres-1}
-    expose:
-      - 8000
-    networks:
-      - realest-network
-    depends_on:
-      - postgres
-
   realest_scrap:
+    container_name: realest-realest_scrap
     build:
       context: ./realest_scrap
     environment: 
       POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
       POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
       POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
-      POSTGRES_HOST: ${REALEST_POSTGRES_HOST:-realest-postgres-1}
+      POSTGRES_HOST: realest-postgres
     expose:
       - 6800
     networks:
       - realest-network
     depends_on:
       - postgres
+
+  realest_site:
+    container_name: realest-realest_site
+    build:
+      context: ./realest_site
+    environment: 
+      POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
+      POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
+      POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
+      POSTGRES_HOST: realest-postgres
+      SCRAPY_HOST: realest-realest_scrap
+    expose:
+      - 8000
+    networks:
+      - realest-network
+    depends_on:
+      - postgres
+      - realest_scrap
 
   web-server:
     build:
