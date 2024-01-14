@@ -1,0 +1,13 @@
+# Compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build files
+build/
+eggs
+*.egg-info/
+*.egg
+
+# Scrapy cache
+.scrapy
