@@ -14,10 +14,10 @@ class SrealitySpider(Spider):
         f"category_main_cb=1&category_type_cb=1&per_page={per_page:d}")
     ]
     scraped = 0
+    scrap_limit: int | None = None
 
-    def parse(self, response, **kwargs):
-        scrap_limit = self.settings.getint('SCRAP_LIMIT')
-        if scrap_limit == 0 or self.scraped < scrap_limit:
+    def parse(self, response):  # type: ignore
+        if not self.scrap_limit or self.scraped < self.scrap_limit:
             response_dict = loads(response.text)
             for posting in response_dict['_embedded']['estates']:
                 picture = None
@@ -34,7 +34,7 @@ class SrealitySpider(Spider):
                 self.scraped += 1
 
             if self.page * self.per_page < response_dict['result_size'] and \
-                (scrap_limit == 0 or self.scraped < scrap_limit):
+                (not self.scrap_limit or self.scraped < self.scrap_limit):
                 self.page += 1
                 yield Request(
                     url=f"{self.start_urls[0]:s}&page={self.page:d}", callback=self.parse

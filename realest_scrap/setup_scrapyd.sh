@@ -14,7 +14,7 @@ while ! curl "$REALEST_SCRAP_URL"/daemonstatus.json; do
         echo "Cannot connect to scrapyd"
         exit 1
     fi
-    sleep 0.5 && ((N_CHECKS++))
+    sleep 0.5 && N_CHECKS=$(expr "$N_CHECKS" + 1)
 done
 
 scrapyd-deploy && kill "$SCRAPYD_PID" && exec "$@"
