@@ -26,6 +26,8 @@ RUN apk add --no-cache postgresql-libs && \
     pip install -r requirements.txt && \
     apk --purge del .build-deps
 
+RUN apk add --no-cache netcat-openbsd
+
 COPY  . .
 
 EXPOSE 8000
