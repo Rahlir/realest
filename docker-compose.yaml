@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:16.1
+    environment:
+      POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
+      POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
+      POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
+    networks:
+      - realest-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  realest_site:
+    build:
+      context: ./realest_site
+    environment: 
+      POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
+      POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
+      POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
+      POSTGRES_HOST: ${REALEST_POSTGRES_HOST:-realest-postgres-1}
+    ports:
+      - "8000:8000"
+    networks:
+      - realest-network
+    depends_on:
+      - postgres
+
+  realest_scrap:
+    build:
+      context: ./realest_scrap
+    environment: 
+      POSTGRES_USER: ${REALEST_POSTGRES_USER:-realest}
+      POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
+      POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
+      POSTGRES_HOST: ${REALEST_POSTGRES_HOST:-realest-postgres-1}
+    networks:
+      - realest-network
+    depends_on:
+      - postgres
+
+networks:
+  realest-network:
+    driver: bridge
+    name: realest-network
+
+
+volumes:
+  postgres_data:

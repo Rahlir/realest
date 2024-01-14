@@ -1,0 +1,22 @@
+.postings-list {
+    display: flex;
+    flex-direction: column;   
+}
+
+.postings-item {
+    padding: 10;
+    display: flex;
+    align-items: center;
+}
+
+.postings-item > a {
+    padding: 10;
+}
+
+.pagination {
+    padding-top: 25;
+}
+
+.pagination-text {
+    font-weight: bold;
+}
