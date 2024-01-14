@@ -18,8 +18,8 @@ services:
       POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
       POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
       POSTGRES_HOST: ${REALEST_POSTGRES_HOST:-realest-postgres-1}
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     networks:
       - realest-network
     depends_on:
@@ -33,16 +33,27 @@ services:
       POSTGRES_PASSWORD: ${REALEST_POSTGRES_PASSWORD:-realest_password}
       POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
       POSTGRES_HOST: ${REALEST_POSTGRES_HOST:-realest-postgres-1}
+    expose:
+      - 6800
     networks:
       - realest-network
     depends_on:
       - postgres
 
+  web-server:
+    build:
+      context: ./nginx_setup
+    ports:
+      - 8080:8080
+    depends_on:
+      - realest_site
+    networks:
+      - realest-network
+
 networks:
   realest-network:
     driver: bridge
     name: realest-network
-
 
 volumes:
   postgres_data:
