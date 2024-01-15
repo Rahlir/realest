@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -16,6 +16,7 @@ class IndexView(ListView):
     info_message = "hello world"
 
     def get_context_data(self, **kwargs):
+        """Add additional context to IndexView about whether craling is in progress"""
         context = super().get_context_data(**kwargs)
         scrapy_settings = settings.SCRAPY
         scrapy_request = f"http://{scrapy_settings['host']:s}:{scrapy_settings['port']:s}/listjobs.json?project=realest_scrap"
@@ -27,10 +28,14 @@ class IndexView(ListView):
         return context
 
 
-def request_crawl(request):
+def request_crawl(request: HttpRequest) -> HttpResponse:
+    """Submit request to scrapyd API to crawl sreality and return to IndexView"""
     scrapy_settings = settings.SCRAPY
     scrapy_request = f"http://{scrapy_settings['host']:s}:{scrapy_settings['port']:s}/schedule.json"
     category = request.POST["category"]
+    assert isinstance(category, str)
+
+    #
     api_request_header = {
         'project': 'realest_scrap',
         'spider': 'sreality',

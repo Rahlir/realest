@@ -1,8 +1,8 @@
 from json import loads
+from typing import Any, Generator
 
 from scrapy import Spider, Request
-
-from realest_scrap.models import Posting
+from scrapy.http import Response
 
 
 class SrealitySpider(Spider):
@@ -27,7 +27,8 @@ class SrealitySpider(Spider):
                 self.per_page = self.scrap_limit
         self.start_urls = [self.url_template.format(self.posting_category, self.per_page)]
 
-    def parse(self, response):  # type: ignore
+    def parse(self, response: Response) -> Generator[Request | dict[str, Any], None, None]:
+        """Parse the posting from sreality if we are still within scrap_limit parameter."""
         if not self.scrap_limit or self.scraped < self.scrap_limit:
             response_dict = loads(response.text)
             for posting in response_dict['_embedded']['estates']:
@@ -44,6 +45,8 @@ class SrealitySpider(Spider):
                 )
                 self.scraped += 1
 
+            # Only yield new request if we are not over limit and there are still
+            # data to scrap
             if self.page * self.per_page < response_dict['result_size'] and \
                 (not self.scrap_limit or self.scraped < self.scrap_limit):
                 self.page += 1

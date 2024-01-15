@@ -87,6 +87,7 @@ DATABASES = {
     }
 }
 
+# Scrapyd API URL
 SCRAPY = {
     'host': getenv('SCRAPY_HOST', '127.0.0.1'),
     'port': getenv('SCRAPY_PORT', '6800')

@@ -1,15 +1,8 @@
 # Scrapy settings for realest_scrap project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://docs.scrapy.org/en/latest/topics/settings.html
-#     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from os import getenv
 
-from sqlalchemy import URL, make_url
+from sqlalchemy import URL
 
 
 BOT_NAME = "realest_scrap"
@@ -100,6 +93,7 @@ FEED_EXPORT_ENCODING = "utf-8"
 # Other non-scrapy settings
 
 def database_url() -> URL:
+    """Return URL object pointing to postgresql database."""
     url_dict = {
         'drivername': 'postgresql',
         'host': getenv('POSTGRES_HOST', 'localhost'),
@@ -112,4 +106,6 @@ def database_url() -> URL:
     return URL.create(**url_dict)
 
 DATABASE_URL = database_url()
+
+# Limit number of crawled items
 SCRAP_LIMIT = 0

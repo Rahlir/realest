@@ -34,3 +34,16 @@ docker volume rm realest_postgres_data
 The "frontend" is fairly self-intuitive. You can request crawl of `sreality.cz` through
 the web form and then browse the scraped postings. The postings can also be viewed
 in a detail view using the links in the list view.
+
+## Architecture Notes
+
+For the architecture, I have picked `scrapy` framework with deployment using [scrapyd](https://scrapyd.readthedocs.io/en/latest/overview.html)
+in order to be able to send crawling requests using REST API. For the website, I have
+picked `django` framework. For such a small application, [FastAPI](https://fastapi.tiangolo.com/) would probably be
+more suitable. However, since it was necessary to also build a simple frontend, `django`
+was more suitable since `FastAPI` can only build pure REST API and building a separate
+JavaScript frontend would be an overkill.
+
+Right now, no unit tests were written since the application is of a very small size. Nevertheless,
+testing architecture is prepared in place: for `realest_scrap`, testing can be done with [pytest](https://docs.pytest.org/en/7.4.x/),
+for `realest_site`, testing can be done with builtin test infrastructure of `django`.
