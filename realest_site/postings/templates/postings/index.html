@@ -1,14 +1,32 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'postings/style.css' %}">
-<form action="{% url 'crawl' %}" method="post">
-    {% csrf_token %}
-    <fieldset>
-        <input type="radio" id="apartments" name="category", value="Apartments">
-        <label for="apartments">Apartments</label><br>
-        <input type="submit" value="Request Crawl">
-    </fieldset>
-</form>
+
+<div class="request-form">
+    <form action="{% url 'crawl' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {% if error_message %}<p class="error-msg">{{ error_message }}</p>{% endif %}
+            {% if info_message %}<p class="info-msg">{{ info_message }}</p>{% endif %}
+            <div>
+                <p class="radio-group-title">Posting category</p><br>
+                <input type="radio" id="choice1" name="category", value="choice1" checked />
+                <label for="choice1">Apartments</label><br>
+                <input type="radio" id="choice2" name="category" value="choice2" />
+                <label for="choice2">Houses</label><br>
+                <input type="radio" id="choice3" name="category" value="choice3" />
+                <label for="choice3">Estates</label><br>
+                <input type="radio" id="choice4" name="category" value="choice4" />
+                <label for="choice4">Commercial</label><br>
+            </div>
+            <label for="scrap-limit">To scrap: </label><br>
+            <input type="number" id="scrap-limit" name="scrap-limit" min="10" /><br>
+
+
+            <input type="submit" value="Request Crawl">
+        </fieldset>
+    </form>
+</div>
 
 <div class="postings-list">
     <h1>Scrapped Postings</h1>

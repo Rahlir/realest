@@ -32,6 +32,8 @@ class SrealityToPsgPipeline:
             if instance:
                 return instance
 
+            item['insertion_order'] = session.query(Posting).count()
+
             posting_item = Posting(**item)
 
             session.add(posting_item)
