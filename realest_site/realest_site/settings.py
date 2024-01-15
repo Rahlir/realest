@@ -25,9 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k4ajcc9^sphp78h=*5oxs8&3+0qirf$z@j1#24j)vm6x6ik_a@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv("DJANGO_DEBUG", True)
+DEBUG = getenv("DJANGO_DEBUG", False)
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
