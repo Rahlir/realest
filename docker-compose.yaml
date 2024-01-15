@@ -37,6 +37,8 @@ services:
       POSTGRES_DB: ${REALEST_POSTGRES_DB:-realestDb}
       POSTGRES_HOST: realest-postgres
       SCRAPY_HOST: realest-realest_scrap
+    volumes:
+      - static_files:/opt/realest_site/staticfiles
     expose:
       - 8000
     networks:
@@ -48,6 +50,8 @@ services:
   web-server:
     build:
       context: ./nginx_setup
+    volumes:
+      - static_files:/usr/share/staticfiles
     ports:
       - 8080:8080
     depends_on:
@@ -62,3 +66,4 @@ networks:
 
 volumes:
   postgres_data:
+  static_files:

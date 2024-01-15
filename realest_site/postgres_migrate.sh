@@ -9,6 +9,7 @@ while ! nc -z $POSTGRES_HOST 5432; do
     sleep 0.5
 done
 
-python manage.py migrate
+python manage.py migrate --no-input
+python manage.py collectstatic --no-input
 
 exec "$@"

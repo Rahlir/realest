@@ -8,8 +8,8 @@
         <fieldset>
             {% if error_message %}<p class="error-msg">{{ error_message }}</p>{% endif %}
             {% if info_message %}<p class="info-msg">{{ info_message }}</p>{% endif %}
-            <div>
-                <p class="radio-group-title">Posting category</p><br>
+            <div class="radio-group">
+                <p class="form-title">Posting category</p>
                 <input type="radio" id="choice1" name="category", value="choice1" checked />
                 <label for="choice1">Apartments</label><br>
                 <input type="radio" id="choice2" name="category" value="choice2" />
@@ -19,11 +19,15 @@
                 <input type="radio" id="choice4" name="category" value="choice4" />
                 <label for="choice4">Commercial</label><br>
             </div>
-            <label for="scrap-limit">To scrap: </label><br>
-            <input type="number" id="scrap-limit" name="scrap-limit" min="10" /><br>
+            <div class="scrap-limit">
+                <label class="form-title" for="scrap-limit">To scrap: </label><br>
+                <input type="number" id="scrap-limit" name="scrap-limit" min="10" /><br>
+            </div>
 
 
-            <input type="submit" value="Request Crawl">
+            <div class="submit-button">
+                <input type="submit" value="Crawl sreality">
+            </div>
         </fieldset>
     </form>
 </div>

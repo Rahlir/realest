@@ -1,3 +1,36 @@
+.info-msg {
+    font-style: italic;
+    margin: 15;
+    margin-bottom: 0;
+}
+
+.error-msg {
+    font-weight: bolder;
+    color: red;
+}
+
+.form-title {
+    font-weight: bolder;
+    margin-bottom: 2;
+}
+
+.radio-group {
+    padding: 10;
+    padding-top: 5;
+}
+
+.submit-button {
+    padding: 10;
+}
+
+.scrap-limit {
+    padding: 10;
+}
+
+.request-form {
+    display: flex;
+}
+
 .postings-list {
     display: flex;
     flex-direction: column;   
